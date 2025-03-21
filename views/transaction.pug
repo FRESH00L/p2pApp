@@ -5,8 +5,8 @@ block content
     h2 Create New Transaction
     form#transaction-form(method='POST', action='/transactions/new')
       .form-group
-        label(for='reciver_number') Recipient Card Number:
-        input#reciver_number.form-control(type='text', name='reciver_number', placeholder='Enter recipient card number', required)
+        label(for='reciver_name') Recipient Name:
+        input#reciver_number.form-control(type='text', name='reciver_name', placeholder='Enter recipient name', required)
       
       .form-group
         label(for='amount') Amount:

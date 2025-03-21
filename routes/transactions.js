@@ -17,7 +17,7 @@ router.post('/new', (req, res) => {
         }
     });
 
-    const { amount, text, reciver_number } = req.body;
+    const { amount, text, reciver_name } = req.body;
     const sender_id = req.session.user.id;
 
     if (amount <= 0) {
@@ -25,7 +25,7 @@ router.post('/new', (req, res) => {
     }
 
     // Pobierz dane odbiorcy
-    db.get('SELECT * FROM Users WHERE cardNumber = ?', [reciver_number], (err, reciver) => {
+    db.get('SELECT * FROM Users WHERE name = ?', [reciver_name], (err, reciver) => {
         if (err) {
             console.error('Error checking user:', err);
             return res.status(500).send('Error checking recipient');

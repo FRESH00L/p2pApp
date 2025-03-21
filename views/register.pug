@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  .container
+    h2 Register
+
+    form#register-form(method='POST', action='/users/register')
+      .form-group
+        label(for='username') Username:
+        input#username.form-control(type='text', name='username', placeholder='Enter username', required)
+
+      .form-group
+        label(for='password') Password:
+        input#password.form-control(type='password', name='password', placeholder='Enter password', required)
+
+      .form-group
+        label(for='confirm_password') Confirm Password:
+        input#confirm_password.form-control(type='password', name='confirm_password', placeholder='Repeat password', required)
+      button.btn.btn-primary(type='submit', name='regBtn') Register

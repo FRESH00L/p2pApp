@@ -16,12 +16,16 @@ function createTables() {
         id INTEGER PRIMARY KEY,
         name TEXT NOT NULL UNIQUE,
         password TEXT NOT NULL,
-        balance FLOAT DEFAULT 0.0 CHECK (balance >= 0.0),
-        cardNumber TEXT NOT NULL CHECK (LENGTH(cardNumber) = 9) UNIQUE, 
-        cardHolder TEXT NOT NULL,
-        cvv TEXT NOT NULL CHECK (LENGTH(cvv) BETWEEN 3 AND 4) UNIQUE
+        balance FLOAT DEFAULT 0.0 CHECK (balance >= 0.0)
     )`);
-    
+    db.run(`CREATE TABLE IF NOT EXISTS Cards (
+        cardNumber TEXT NOT NULL CHECK (LENGTH(cardNumber) = 9) PRIMARY KEY, 
+        name TEXT NULL,
+        cardHolder INTEGER NOT NULL,
+        cvv TEXT NOT NULL CHECK (LENGTH(cvv) BETWEEN 3 AND 4) UNIQUE,
+        FOREIGN KEY (cardHolder) REFERENCES Users(id)
+)`);
+
     db.run(`CREATE TABLE IF NOT EXISTS Transactions (
         id INTEGER PRIMARY KEY,
         amount FLOAT NOT NULL CHECK (amount > 0),

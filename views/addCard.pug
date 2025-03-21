@@ -1,0 +1,35 @@
+extends layout
+
+block content
+  .container
+    h2 Add New Card
+    form#add-card-form(method='POST', action='/users/addCard')
+      .form-group
+        label(for='cardName') Card Name:
+        input#cardName.form-control(type='text', name='cardName', placeholder='Enter card name')
+
+      .form-group
+        label(for='cardNumber') Card Number:
+        input#cardNumber.form-control(type='text', name='cardNumber', placeholder='Enter 9-digit card number', required, pattern='[0-9]{9}')
+      
+      .form-group
+        label(for='cvv') CVV:
+        input#cvv.form-control(type='password', name='cvv', placeholder='Enter 3-4 digit CVV', required, pattern='[0-9]{3,4}')
+      
+      button.btn.btn-primary(type='submit') Add Card
+
+    script.
+      document.getElementById('add-card-form').onsubmit = function(event) {
+        const cardNumber = document.getElementById('cardNumber').value.trim();
+        const cvv = document.getElementById('cvv').value.trim();
+
+        if (cardNumber.length !== 9 || !/^\d{9}$/.test(cardNumber)) {
+          alert('Card number must be exactly 9 digits.');
+          event.preventDefault();
+        }
+
+        if (cvv.length !== 4 || !/^\d{3,4}$/.test(cvv)) {
+          alert('CVV must be 3 or 4 digits.');
+          event.preventDefault();
+        }
+      };

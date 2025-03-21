@@ -1,4 +1,4 @@
-head
+head 
   meta(charset='utf-8')
   title User Dashboard
   link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css')
@@ -16,6 +16,27 @@ body
         a.btn.btn-primary(href='/topup') Top Up Account
         a.btn.btn-success(href='/transaction') New Transaction
         a.btn.btn-danger(href='/logout') Log Out
+        a.btn.btn-info(href='/addCard') Add Card
+
+    // Lista kart użytkownika
+    .row.mt-3
+      .col-md-12
+        h3 Your Cards
+        if cards.length
+          table.table.table-striped
+            thead
+              tr
+                th Card Name
+                th Card Number
+                th CVV
+            tbody
+              each card in cards
+                tr
+                  td= card.name
+                  td= card.cardNumber
+                  td= card.cvv
+        else
+          p You have no cards added.
 
     // Przycisk do pokazania szczegółów konta
     .row.mt-3
@@ -31,28 +52,27 @@ body
           li CVV: #{user.cvv}
           li Card Holder: #{user.cardHolder}
 
-// Lista transakcji
-.row.mt-5
-  .col-md-12
-    h3 Transaction History
-    if transactions.length
-      table.table.table-striped
-        thead
-          tr
-            th Amount
-            th Description
-            th Sender
-            th Receiver
-        tbody
-          each transaction in transactions
-            tr
-              td= `$${transaction.amount}`
-              td= transaction.text || 'No description'
-              td= transaction.sender_name
-              td= transaction.receiver_name
-    else
-      p No transactions found.
-
+    // Lista transakcji
+    .row.mt-5
+      .col-md-12
+        h3 Transaction History
+        if transactions.length
+          table.table.table-striped
+            thead
+              tr
+                th Amount
+                th Description
+                th Sender
+                th Receiver
+            tbody
+              each transaction in transactions
+                tr
+                  td= `$${transaction.amount}`
+                  td= transaction.text || 'No description'
+                  td= transaction.sender_name
+                  td= transaction.receiver_name
+        else
+          p No transactions found.
 
     // Skrypt do pokazania szczegółów po naciśnięciu przycisku
     script.
