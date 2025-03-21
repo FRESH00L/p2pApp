@@ -1,0 +1,30 @@
+head
+  meta(charset='utf-8')
+  title Login
+  link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css')
+
+body
+  .modal-dialog
+    .modal-content
+      // Modal Header
+      .modal-header
+        h4#myModalLabel.modal-title Login Form
+
+      // Modal Body
+      .modal-body
+        form(role='form' method='POST' action='/users/login')
+          .form-group
+            label(for='name') Username:
+            input#name.form-control(type='text', name='name', placeholder='myUsername')
+          
+          .form-group
+            label(for='password') Password:
+            input#password.form-control(type='password', name='password', placeholder='*********')
+
+          button.btn.btn-primary(type='submit', name='loginBtn') Login
+
+      // Modal Footer
+      .modal-footer(style='text-align: center;')
+        if message
+          p(style='color: red;') #{message}
+        a(href='/', class='btn') Go back home

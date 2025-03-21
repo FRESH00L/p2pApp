@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  .container
+    h2 Create New Transaction
+    form#transaction-form(method='POST', action='/transactions/new')
+      .form-group
+        label(for='reciver_number') Recipient Card Number:
+        input#reciver_number.form-control(type='text', name='reciver_number', placeholder='Enter recipient card number', required)
+      
+      .form-group
+        label(for='amount') Amount:
+        input#amount.form-control(type='number', name='amount', placeholder='Enter amount', required, min='1')
+      
+      .form-group
+        label(for='text') Description (optional):
+        input#text.form-control(type='text', name='text', placeholder='Enter transaction description')
+
+      // Ukryte pole na hasło (zostanie wypełnione przez JS)
+      input#password(type='hidden', name='password')
+
+      button.btn.btn-primary(type='button', id='proceedButton') Proceed
+
+    script(src='/javascripts/transaction.js')

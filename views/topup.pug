@@ -1,0 +1,29 @@
+head
+  meta(charset='utf-8')
+  title Top Up Account
+  link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css')
+
+body
+  .container
+    h2 Top Up Your Account
+    p Balance: #{user.balance}
+
+    // Form to top-up balance
+    form(method='POST', action='/users/top-up')
+      .form-group
+        label(for='amount') Amount to add:
+        input#amount.form-control(type='number', name='amount', placeholder='Enter amount' required)
+      
+      .form-group
+        label(for='cardNumber') Card Number:
+        input#cardNumber.form-control(type='text', name='cardNumber', placeholder='Enter card number' required)
+      
+      .form-group
+        label(for='cardHolder') Card Holder:
+        input#cardHolder.form-control(type='text', name='cardHolder', placeholder='Enter card holder name' required)
+
+      .form-group
+        label(for='cvv') CVV:
+        input#cvv.form-control(type='text', name='cvv', placeholder='Enter CVV' required)
+
+      button.btn.btn-primary(type='submit') Top Up Account
