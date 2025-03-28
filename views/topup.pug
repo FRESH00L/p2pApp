@@ -1,17 +1,20 @@
-head
-  meta(charset='utf-8')
-  title Top Up Account
-  link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css')
+html(lang="en")
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title Top Up Account
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css')
 
-body
-  .container
-    h2 Top Up Your Account
-    p Balance: #{user.balance}
+  body
+    .container.mt-4
+      h2.text-center Top Up Your Account
+      p.text-center Balance: 
+        strong $#{user.balance}
 
-    // Form to top-up balance
-    form(method='POST', action='/users/top-up')
-      .form-group
-        label(for='amount') Amount to add:
-        input#amount.form-control(type='number', name='amount', placeholder='Enter amount' required)
-
-      button.btn.btn-primary(type='submit') Top Up Account
+      // Form to top-up balance
+      form(method='POST', action='/users/top-up', class='w-50 mx-auto')
+        .form-group
+          label(for='amount') Amount to add:
+          input#amount.form-control(type='number', name='amount', placeholder='Enter amount' required)
+        
+        button.btn.btn-primary.btn-block(type='submit') Top Up Account

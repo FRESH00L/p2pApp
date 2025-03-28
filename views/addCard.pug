@@ -1,23 +1,30 @@
-extends layout
-
-block content
-  .container
-    h2 Add New Card
-    form#add-card-form(method='POST', action='/users/addCard')
-      .form-group
-        label(for='cardName') Card Name:
-        input#cardName.form-control(type='text', name='cardName', placeholder='Enter card name')
-
-      .form-group
-        label(for='cardNumber') Card Number:
-        input#cardNumber.form-control(type='text', name='cardNumber', placeholder='Enter 9-digit card number', required, pattern='[0-9]{9}')
+doctype html
+html(lang="en")
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title Add New Card
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css')
+  
+  body
+    .container.mt-4
+      h2.text-center Add New Card
       
-      .form-group
-        label(for='cvv') CVV:
-        input#cvv.form-control(type='password', name='cvv', placeholder='Enter 3-4 digit CVV', required, pattern='[0-9]{3,4}')
-      
-      button.btn.btn-primary(type='submit') Add Card
+      form#add-card-form(method='POST', action='/users/addCard', class='w-50 mx-auto')
+        .form-group
+          label(for='cardName') Card Name:
+          input#cardName.form-control(type='text', name='cardName', placeholder='Enter card name')
+        
+        .form-group
+          label(for='cardNumber') Card Number:
+          input#cardNumber.form-control(type='text', name='cardNumber', placeholder='Enter 9-digit card number', required, pattern='[0-9]{9}')
+        
+        .form-group
+          label(for='cvv') CVV:
+          input#cvv.form-control(type='password', name='cvv', placeholder='Enter 3-4 digit CVV', required, pattern='[0-9]{3,4}')
 
+        button.btn.btn-primary.btn-block(type='submit') Add Card
+      
     script.
       document.getElementById('add-card-form').onsubmit = function(event) {
         const cardNumber = document.getElementById('cardNumber').value.trim();
@@ -28,7 +35,7 @@ block content
           event.preventDefault();
         }
 
-        if (cvv.length !== 4 || !/^\d{3,4}$/.test(cvv)) {
+        if (cvv.length !== 3 && cvv.length !== 4 || !/^\d{3,4}$/.test(cvv)) {
           alert('CVV must be 3 or 4 digits.');
           event.preventDefault();
         }

@@ -7,23 +7,19 @@ router.get('/', (req, res) => {
   if(!req.session.user){
     return res.render('login');
   }
-  const userId = req.session.user.id; // Zakładając, że użytkownik jest zalogowany i mamy jego ID w sesji
+  const userId = req.session.user.id;
 
-  // Pobierz użytkownika z bazy danych
+
   db.get('SELECT * FROM Users WHERE id = ?', [userId], (err, user) => {
     if (err) {
       console.error('Error fetching user:', err);
       return res.status(500).send('Error fetching user');
     }
-
-    // Pobierz karty tego użytkownika
     db.all('SELECT * FROM Cards WHERE cardHolder = ?', [userId], (err, cards) => {
       if (err) {
         console.error('Error fetching cards:', err);
         return res.status(500).send('Error fetching cards');
       }
-
-      // Pobierz transakcje (jeśli chcesz je także wyświetlić)
       const sql = `
         SELECT Transactions.amount, Transactions.text, 
                sender.name AS sender_name, 
@@ -39,8 +35,6 @@ router.get('/', (req, res) => {
           console.error('Error fetching transactions:', err);
           return res.status(500).send('Error fetching transactions');
         }
-
-        // Renderuj widok Pug i przekaż dane
         res.render('userpage', {
           user: user,
           cards: cards,
@@ -53,12 +47,11 @@ router.get('/', (req, res) => {
 router.get('/topup', function(req, res, next) {
   const user = req.session.user;
 
-  // Sprawdź, czy użytkownik jest zalogowany
   if (!user) {
-    return res.redirect('/'); // Jeśli nie, przekieruj do strony logowania
+    return res.redirect('/');
   }
 
-  res.render('topup', { user: user }); // Przekazuj obiekt 'user' do widoku
+  res.render('topup', { user: user });
 });
 
 router.get('/transaction', function(req,res,next) {
@@ -70,14 +63,14 @@ router.get('/transaction', function(req,res,next) {
 })
 router.get('/logout', function(req, res, next) {
   if (req.session.user) {
-    req.session.destroy((err) => {  // Usuwamy podwójne wywołanie destroy
+    req.session.destroy((err) => {
       if (err) {
         return res.status(500).send('Failed to destroy session');
       }
-      res.redirect('/');  // Przekierowanie po zakończeniu
+      res.redirect('/'); 
     });
   } else {
-    return res.redirect('/');  // Jeśli brak sesji użytkownika, przekierowujemy
+    return res.redirect('/'); 
   }
 });
 

@@ -1,19 +1,61 @@
-extends layout
-
+head
+  meta(charset='utf-8')
+  title Login
+  link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css')
+  
 block content
-  .container
-    h2 Register
+  .modal-dialog
+    .modal-content
+      // Modal Header
+      .modal-header
+        h4#myModalLabel.modal-title Register Form
 
-    form#register-form(method='POST', action='/users/register')
-      .form-group
-        label(for='username') Username:
-        input#username.form-control(type='text', name='username', placeholder='Enter username', required)
+      // Modal Body
+      .modal-body
+        h2.text-center Register
 
-      .form-group
-        label(for='password') Password:
-        input#password.form-control(type='password', name='password', placeholder='Enter password', required)
+        form(role='form' method='POST' action='/users/register')
+          .form-group
+            label(for='username') Username:
+            input#username.form-control(type='text', name='username', placeholder='Enter username', required)
 
-      .form-group
-        label(for='confirm_password') Confirm Password:
-        input#confirm_password.form-control(type='password', name='confirm_password', placeholder='Repeat password', required)
-      button.btn.btn-primary(type='submit', name='regBtn') Register
+          .form-group
+            label(for='password') Password:
+            input#password.form-control(type='password', name='password', placeholder='Enter password', required)
+
+          .form-group
+            label(for='confirm_password') Confirm Password:
+            input#confirm_password.form-control(type='password', name='confirm_password', placeholder='Repeat password', required)
+
+          button.btn.btn-primary.btn-block(type='submit', name='regBtn') Register
+
+      // Link do strony logowania
+      a.btn.btn-info.mt-3(href='/login') Already have an account? Log in
+
+      // Alerty, które będą wyświetlane w przypadku błędów lub sukcesu
+      .alert.alert-danger.text-center(id='errorAlert', style='display:none')
+        strong Error: Passwords do not match!
+
+      .alert.alert-success.text-center(id='successAlert', style='display:none')
+        strong Registration successful! Please log in.
+
+      // Modal Footer
+      .modal-footer(style='text-align: center;')
+        if message
+          p(style='color: red;') #{message}
+        a(href='/', class='btn') Go back home
+
+    // Skrypt do sprawdzenia, czy hasła są zgodne
+    script.
+      document.getElementById('register-form').onsubmit = function(event) {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm_password').value;
+
+        if (password !== confirmPassword) {
+          event.preventDefault(); // Zatrzymanie wysyłania formularza
+          document.getElementById('errorAlert').style.display = 'block'; // Wyświetlenie alertu o błędzie
+          setTimeout(() => {
+            document.getElementById('errorAlert').style.display = 'none';
+          }, 3000); // Ukrycie alertu po 3 sekundach
+        }
+      };
