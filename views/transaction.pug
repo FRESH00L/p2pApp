@@ -14,18 +14,21 @@ html(lang="en")
 
       form#transaction-form(method='POST', action='/transactions/new', class='w-50 mx-auto')
         .form-group
-          label(for='reciver_name') Recipient Name:
-          input#reciver_number.form-control(type='text', name='reciver_name', placeholder='Enter recipient name', required)
-        
-        .form-group
           label(for='amount') Amount:
           input#amount.form-control(type='number', name='amount', placeholder='Enter amount', required, min='1')
         
         .form-group
           label(for='text') Description (optional):
           input#text.form-control(type='text', name='text', placeholder='Enter transaction description')
+        .form-group
+          label(for='reciver_name') Recipient:
+          select#reciver_name.form-control(name='receiver_id', size=5, required)
+            each friend in friends
+              if friend.friend_id == selectedFriendId
+                option(value=friend.friend_id selected) #{friend.friend_name}
+              else
+                option(value=friend.friend_id) #{friend.friend_name}
 
-        // Hidden password field (filled by JS)
         input#password(type='hidden', name='password')
 
         button.btn.btn-primary.btn-block(type='button', id='proceedButton') Proceed

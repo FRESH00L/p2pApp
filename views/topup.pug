@@ -12,9 +12,15 @@ html(lang="en")
         strong $#{user.balance}
 
       // Form to top-up balance
-      form(method='POST', action='/users/top-up', class='w-50 mx-auto')
+      form(method='POST', action='/cards/top-up', class='w-50 mx-auto')
         .form-group
           label(for='amount') Amount to add:
           input#amount.form-control(type='number', name='amount', placeholder='Enter amount' required)
+
+        .form-group
+          label(for='cardNumber') Choose a card:
+          select#cardNumber.form-control(name='cardNumber' required)
+            each card in cards
+              option(value=card.cardNumber) #{card.cardNumber} - $#{card.credit}
         
         button.btn.btn-primary.btn-block(type='submit') Top Up Account

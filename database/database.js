@@ -16,24 +16,39 @@ function createTables() {
         id INTEGER PRIMARY KEY,
         name TEXT NOT NULL UNIQUE,
         password TEXT NOT NULL,
-        balance FLOAT DEFAULT 0.0 CHECK (balance >= 0.0)
+        balance REAL DEFAULT 0.0 CHECK (balance >= 0.0)
     )`);
     db.run(`CREATE TABLE IF NOT EXISTS Cards (
-        cardNumber TEXT NOT NULL CHECK (LENGTH(cardNumber) = 9) PRIMARY KEY, 
+        cardNumber TEXT NOT NULL CHECK (LENGTH(cardNumber) = 16) PRIMARY KEY, 
         name TEXT NULL,
         cardHolder INTEGER NOT NULL,
-        cvv TEXT NOT NULL CHECK (LENGTH(cvv) BETWEEN 3 AND 4) UNIQUE,
+        cvv TEXT NOT NULL CHECK (LENGTH(cvv) = 4) UNIQUE,
+        experationDate TEXT NOT NULL,
+        credit REAL NOT NULL CHECK (credit > 0),
         FOREIGN KEY (cardHolder) REFERENCES Users(id)
-)`);
-
+    )`);
     db.run(`CREATE TABLE IF NOT EXISTS Transactions (
         id INTEGER PRIMARY KEY,
-        amount FLOAT NOT NULL CHECK (amount > 0),
+        amount REAL NOT NULL CHECK (amount > 0),
         text TEXT NOT NULL,
         sender_id INTEGER NOT NULL,
         receiver_id INTEGER NOT NULL,
         FOREIGN KEY (sender_id) REFERENCES Users(id),
         FOREIGN KEY (receiver_id) REFERENCES Users(id)
+    )`);
+    db.run(`CREATE TABLE IF NOT EXISTS Friends (
+        user_id INTEGER NOT NULL,
+        friend_id INTEGER NOT NULL,
+        PRIMARY KEY (user_id, friend_id),
+        FOREIGN KEY (user_id) REFERENCES Users(id),
+        FOREIGN KEY (friend_id) REFERENCES Users(id)
+    )`);
+    db.run(`CREATE TABLE IF NOT EXISTS Requests (
+        sender INTEGER NOT NULL,
+        reciver INTEGER NOT NULL,
+        PRIMARY KEY (sender, reciver),
+        FOREIGN KEY (sender) REFERENCES Users(id),
+        FOREIGN KEY (reciver) REFERENCES Users(id)
     )`);
 }
 

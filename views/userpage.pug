@@ -4,6 +4,15 @@ head
   link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css')
 
 body
+.nav.navbar.navbar-expand-lg.navbar-light.bg-light
+  a.navbar-brand(href='/') Home 
+  button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarNav', aria-controls='navbarNav', aria-expanded='false', aria-label='Toggle navigation')
+    span.navbar-toggler-icon.collapse.navbar-collapse#navbarNav
+    ul.navbar-nav
+      li.nav-item
+        a.nav-link(href='/') User Page 
+      li.nav-item
+        a.nav-link(href='/friends') Friends
   .container
     // Nagłówek z informacjami o użytkowniku
     .row
@@ -29,12 +38,19 @@ body
                 th Card Name
                 th Card Number
                 th CVV
+                th credit
+                th experation
+                
             tbody
               each card in cards
                 tr
                   td= card.name
                   td= card.cardNumber
                   td= card.cvv
+                  td= card.credit
+                  td= card.experationDate
+                  
+                  
         else
           p You have no cards added.
 

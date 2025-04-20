@@ -1,0 +1,95 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset='utf-8')
+    title Friends
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css')
+
+  body
+    nav.navbar.navbar-toggleable-md.navbar-light.bg-faded
+      .container
+        a.navbar-brand(href='/') Home
+        ul.nav.navbar-nav.ml-auto
+          li.nav-item
+            a.nav-link(href='#', id='nav-friends') Friends
+          li.nav-item
+            a.nav-link(href='#', id='nav-add-friend') Add Friend
+          li.nav-item
+            a.nav-link(href='#', id='nav-requests') Friend Requests
+
+    .container.mt-3
+      // Friends List
+      #section-friends
+        h3 Friends List
+        if friends.length
+          table.table.table-striped
+            thead
+              tr
+                th Name
+                th Actions
+            tbody
+              each friend in friends
+                  tr
+                      td= friend.friend_name
+                      td 
+                          form(method='GET', action='/transaction', style='display:inline')
+                                    input(type='hidden', name='friendId', value=friend.friend_id)
+                                    button.btn.btn-sm.btn-success(type='submit') Transfer
+                          form(method='POST', action='/request', style='display:inline; margin-left: 5px;')
+                                    input(type='hidden', name='friendId', value=friend.friend_id)
+                                    button.btn.btn-sm.btn-info(type='submit') Request
+                          form(method='POST', action='/friends/delete', style='display:inline; margin-left: 5px;')
+                                    input(type='hidden', name='friendId', value=friend.friend_id)
+                                    button.btn.btn-sm.btn-danger(type='submit') Delete
+        else
+          p You have no friends added.
+
+      // Add Friend Form (ukryty na start)
+      #section-add-friend(style="display:none")
+        h3 Add a Friend
+        form(method='POST', action='/friends/addFriend')
+            .form-group
+                label(for='friendName') Username:
+                input#username.form-control(type='text', name='friendName', required)
+            button.btn.btn-success(type='submit') Send Friend Request
+
+      // Friend Requests (ukryte na start)
+      #section-requests(style="display:none")
+        h3 Friend Requests
+        if requests.length
+          table.table.table-striped
+            thead
+                tr
+                    th Name
+                    th Actions
+            tbody
+                each request in requests
+                        tr
+                            td= request.friend_name
+                            td
+                                form(method='POST', action='/friends/acceptFriend', style='display:inline')
+                                    input(type='hidden', name='friendId', value=request.friend_id)
+                                    button.btn.btn-sm.btn-success(type='submit') Accept
+                                form(method='POST', action='/friends/rejectFriend', style='display:inline; margin-left: 5px;')
+                                    input(type='hidden', name='friendId', value=request.friend_id)
+                                    button.btn.btn-sm.btn-danger(type='submit') Reject
+        else
+          p You dont have any friend requests.
+
+    script.
+      const navFriends = document.getElementById('nav-friends');
+      const navAddFriend = document.getElementById('nav-add-friend');
+      const navRequests = document.getElementById('nav-requests');
+
+      const sectionFriends = document.getElementById('section-friends');
+      const sectionAddFriend = document.getElementById('section-add-friend');
+      const sectionRequests = document.getElementById('section-requests');
+
+      function showSection(sectionToShow) {
+        [sectionFriends, sectionAddFriend, sectionRequests].forEach(sec => sec.style.display = 'none');
+        sectionToShow.style.display = 'block';
+      }
+
+      navFriends.addEventListener('click', () => showSection(sectionFriends));
+      navAddFriend.addEventListener('click', () => showSection(sectionAddFriend));
+      navRequests.addEventListener('click', () => showSection(sectionRequests));

@@ -17,24 +17,12 @@ router.post('/new', (req, res) => {
         }
     });
 
-    const { amount, text, reciver_name } = req.body;
+    const { amount, text, receiver_id } = req.body;
     const sender_id = req.session.user.id;
 
     if (amount <= 0) {
         return res.status(400).send("Invalid amount");
     }
-
-    // Pobierz dane odbiorcy
-    db.get('SELECT * FROM Users WHERE name = ?', [reciver_name], (err, reciver) => {
-        if (err) {
-            console.error('Error checking user:', err);
-            return res.status(500).send('Error checking recipient');
-        }
-        if (!reciver) {
-            return res.status(404).send('Recipient not found');
-        }
-
-        const receiver_id = reciver.id;
 
         // Pobierz saldo nadawcy
         db.get('SELECT balance FROM Users WHERE id = ?', [sender_id], (err, sender) => {
@@ -88,6 +76,6 @@ router.post('/new', (req, res) => {
             });
         });
     });
-});
+
 
 module.exports = router;

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const db = require('../database/database');
 const { render } = require('pug');
+const e = require('express');
 
 //Login
 router.post('/login', (req,res)=>{
@@ -98,69 +99,8 @@ router.post('/delete',(req, res)=>{
     res.send('User deleted successfully');
     });
 });
-// Top-up balance
-router.post('/top-up', (req, res) => {
-  if (req.session.user) {
-    const { amount } = req.body;
-    const userId = req.session.user.id;
-    
-    // Aktualizuj saldo użytkownika
-    db.run('UPDATE Users SET balance = balance + ? WHERE id = ?', [amount, userId], function(err) {
-      if (err) {
-        console.error('Error topping up balance:', err.message);
-        return res.status(500).send('Error topping up balance');
-      }
-        // Zaktualizuj saldo w sesji
-        req.session.user.balance += amount;
 
-        // Przekierowanie do strony użytkownika po doładowaniu
-        return res.redirect('/'); // Zakładając, że to jest strona dashboardu
-      });
-  } else {
-    res.send("You have to be logged in to top up");
-  }
-});
 
-router.post('/addCard', (req,res) => {
-  if(req.session.user){
-  const {cardName,cardNumber, cvv} = req.body;
-  if (!validateCard(cardNumber, cvv)) {
-    return res.status(400).send('Invalid card details');
-  }
-  db.get('SELECT * FROM Cards WHERE cardNumber = ?', [cardNumber], (err, card) => {
-    if (err) {
-        console.error('Error checking card:', err);
-        return res.status(500).send('Error checking card');
-    }
 
-    if (card) {
-        console.log(`Card ${cardNumber} already exists`);
-        return res.redirect('/'); // Możesz zmienić na stronę błędu lub komunikatu
-    }
-    const cardHolder = req.session.user.id;
-    // 3. Jeśli karta nie istnieje, dodaj ja do bazy
-    db.run('INSERT INTO Cards (name, cardNumber, cardHolder,  cvv) VALUES (?, ?, ?, ?)', [cardName, cardNumber,cardHolder,cvv], function (err) {
-        if (err) {
-            console.error('Error inserting user:', err.message);
-            return res.status(500).send('Error inserting user');
-        }
-
-        console.log(`User created with ID: ${this.lastID}`);
-        res.redirect('/'); // Przekierowanie do logowania po rejestracji
-    });
-});
-  }else{
-    return res.send("You have to be logged in to add a card");
-  }
-
-})
-
-// Simple card validation function (modify as needed)
-  function validateCard(cardNumber, cvv) {
-    const cardNumberPattern = /^[0-9]{9}$/;  // Example: 9-digit card number
-    const cvvPattern = /^[0-9]{4}$/;         // Example: 4-digit CVV
-  
-    return cardNumberPattern.test(cardNumber) && cvvPattern.test(cvv);
-  }  
 
 module.exports = router;
