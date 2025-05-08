@@ -1,0 +1,57 @@
+/* Stylowanie ogólne strony błędu */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .error-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+  }
+  
+  h1 {
+    color: #d9534f;
+    font-size: 2em;
+    margin-bottom: 10px;
+  }
+  
+  h2 {
+    color: #5bc0de;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+  }
+  
+  pre {
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    padding: 15px;
+    text-align: left;
+    overflow-x: auto;
+    max-height: 400px;
+    font-size: 1em;
+    color: #333;
+  }
+  
+  .error-container a {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .error-container a:hover {
+    text-decoration: underline;
+  }
+  

@@ -1,0 +1,47 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Admin Panel
+    link(rel="stylesheet", href="/styles.css")
+  body
+    header
+      h1 Admin Panel
+    main
+      form(method="GET", action="/admin/users")
+        label(for="search") Search for user: (ID or name):
+        input(type="text", name="q", id="search", placeholder="Enter user ID or name", required)
+        button(type="submit") Search
+
+      if user
+        section
+          h2 User Details
+          p ID: #{user.id}
+          p Name #{user.name}
+          p Role: #{user.role}
+          p Balance: #{user.balance} $
+
+        section
+          h3 Transactions
+          ul
+            each tx in transactions
+              li #{tx.date} - #{tx.amount} $ 
+
+        section
+          h3 Friends
+          ul
+            each friend in friends
+              li #{friend.friend_name} - ID: #{friend.friend_id}
+
+        section
+          h3 Cards
+          ul
+            each card in cards
+              li Card: #{card.cardNumber} - CCV #{card.CCV} - Credit: #{card.credit} - Expiry: #{card.experationDate}
+
+      else if query
+        p Nie znaleziono użytkownika dla zapytania: #{query}
+
+    footer
+      p &copy; 2025 Twoja Aplikacja

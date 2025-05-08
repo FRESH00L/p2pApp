@@ -1,0 +1,21 @@
+head 
+    meta(charset='utf-8')
+    title Transfer Request
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css')
+body
+    .container-mt4 
+        h2.text-center Split the Bill 
+        form(method='POST', action = "/transactions/split", class='w-50 mx-auto')
+            .formgroup 
+                label(for='amount') Amount to split:
+                input#amount.form-control(type='number', name='amount', placeholder='Enter amount' required)
+            .formgroup 
+                label(for='text') Description (optional):
+                input#text.form-control(type='text', name='text', placeholder='Enter transaction description')
+            .formgroup
+                label(for='friends') Select Friends: 
+                select#friends.form-control(name='friends', multiple required)
+                    each friend in friends
+                        option(value=friend.friend_id) #{friend.friend_name}
+            button.btn.btn-primary.btn-block(type='submit', id='proceedButton') SPLIT
+            

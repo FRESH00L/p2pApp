@@ -35,7 +35,7 @@ html(lang="en")
                           form(method='GET', action='/transaction', style='display:inline')
                                     input(type='hidden', name='friendId', value=friend.friend_id)
                                     button.btn.btn-sm.btn-success(type='submit') Transfer
-                          form(method='POST', action='/request', style='display:inline; margin-left: 5px;')
+                          form(method='GET', action='/newTransferRequest', style='display:inline; margin-left: 5px;')
                                     input(type='hidden', name='friendId', value=friend.friend_id)
                                     button.btn.btn-sm.btn-info(type='submit') Request
                           form(method='POST', action='/friends/delete', style='display:inline; margin-left: 5px;')

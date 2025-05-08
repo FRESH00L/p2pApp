@@ -1,0 +1,40 @@
+html(lang="en")
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title Transfer Requests
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css')
+
+  body
+    .container.mt-4
+      h2.text-center Transfer Requests
+
+      // Sprawdzenie, czy są jakiekolwiek prośby o przelewy
+      if requests.length
+        table.table.table-striped
+          thead
+            tr
+              th Name
+              th Message
+              th Amount
+              th Actions
+          tbody
+            each request in requests
+              tr
+                td= request.friend_name
+                td= request.text
+                td= request.amount + '$'
+                td
+                  // Formularz do akceptacji
+                  form(method='POST', action='/transactions/acceptRequest', style='display:inline')
+                    input(type='hidden', name='friendId', value=request.requesting)
+                    input(type='hidden', name='requestId', value=request.id)
+                    button.btn.btn-sm.btn-success(type='submit') Accept
+
+                  // Formularz do odrzucenia
+                  form(method='POST', action='/transactions/rejectRequest', style='display:inline; margin-left: 5px;')
+                    input(type='hidden', name='friendId', value=request.requesting)
+                    input(type='hidden', name='requestId', value=request.id)
+                    button.btn.btn-sm.btn-danger(type='submit') Reject
+      else
+        p You have no pending transfer requests.

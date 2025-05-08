@@ -1,0 +1,23 @@
+html(lang="en")
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title Transfer Request
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css')
+
+  body
+    .container.mt-4
+      h2.text-center Transfer Request
+
+      // Form to top-up balance
+      form(method='POST', action='/transactions/addRequest', class='w-50 mx-auto')
+        .form-group
+          label(for='amount') Amount to add:
+          input#amount.form-control(type='number', name='amount', placeholder='Enter amount' required)
+        .form-group
+          label(for='text') Amount to add:
+          input#text.form-control(type='text', name='text', placeholder='Enter text')
+          
+        input(type='hidden', name='friendId', value=friend_id)
+        
+        button.btn.btn-primary.btn-block(type='submit') Request Transaction
